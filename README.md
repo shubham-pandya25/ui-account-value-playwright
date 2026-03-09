@@ -125,6 +125,7 @@ npm test
 Headed:
 
 npm run test:headed
+
 How it works
 
 tests/auth.setup.spec.ts
@@ -161,7 +162,7 @@ Automating Device Approval in QA using Mailosaur
 
 When running authentication locally, the login flow may require manual device approval. In that case the Playwright test pauses and waits for the user to approve the login
 
-In the QA environment, this step is automated using Mailosaur, which allows Playwright to retrieve the verification code directly from the test email inbox
+In the QA environment, this step is automated using Mailosaur, which allows Playwright to retrieve the verification link directly from the test email inbox
 
 This removes the need for manual approval and allows the authentication flow to run fully automatically
 
@@ -202,7 +203,7 @@ Playwright Login
         
 3. Playwright reads email
         
-4. Verification code extracted
+4. Verification link extracted
         
 5. Code entered automatically
         
