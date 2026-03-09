@@ -71,10 +71,12 @@ config/local.yaml
 You can override it with:
 
 E2E_CONFIG=/path/to/your-config.yaml
+
 1. Create or Refresh the Authenticated Session
 
-Before running the tests, you must generate an authenticated session
-npm run auth
+Before running the tests, you must generate an authenticated session: 
+
+run the command in the terminal : npm run auth
 
 What will happen
 
