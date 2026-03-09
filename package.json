@@ -1,0 +1,18 @@
+{
+  "name": "ui-account-value-playwright",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "playwright test --config=playwright.config.ts --project=chromium",
+    "test:headed": "playwright test --config=playwright.config.ts --project=chromium --headed",
+    "auth": "playwright test --config=playwright.config.ts --project=setup --headed",
+    "install:browsers": "playwright install"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.3.5",
+    "dotenv": "^16.4.5",
+    "mailosaur": "^11.1.0",
+    "yaml": "^2.5.0"
+  }
+}

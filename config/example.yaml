@@ -1,0 +1,49 @@
+app:
+  baseUrl: https://www.test-example.com/
+  loginPath: /sign-in
+  portfolioPath: /c
+
+account:
+  username: ${APP_USERNAME}
+  password: ${APP_PASSWORD}
+
+portfolio:
+  expectedTotal: "0"
+
+behavior:
+  navigationTimeoutMs: 45000
+  actionTimeoutMs: 15000
+
+selectors:
+  cookieAcceptButton:
+    - "button:has-text('Accept')"
+    - "button:has-text('Allow all')"
+
+  usernameInput:
+    - "input[name='username']"
+    - "input[type='email']"
+
+  passwordInput:
+    - "input[name='password']"
+    - "input[type='password']"
+
+  signInButton:
+    - "button[type='submit']"
+    - "button:has-text('Continue')"
+    - "button:has-text('Sign in')"
+
+  otpInput:
+    - "input[name='otp']"
+    - "input[inputmode='numeric']"
+
+  otpSubmitButton:
+    - "button[type='submit']"
+    - "button:has-text('Verify')"
+
+  portfolioLabel:
+    - "text=/Portfolio value/i"
+
+  passkeyDismissButton:
+    - "button:has-text('Maybe later')"
+    - "button:has-text('Not now')"
+    - "button:has-text('Skip')"

@@ -1,0 +1,78 @@
+name: playwright
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Write environment file
+        run: |
+          cat <<'ENVFILE' > .env
+          APP_USERNAME=${{ secrets.APP_USERNAME }}
+          APP_PASSWORD=${{ secrets.APP_PASSWORD }}
+          APP_OTP=${{ secrets.APP_OTP }}
+          ENVFILE
+
+      - name: Write local config
+        run: |
+          mkdir -p config
+          cat <<'YAML' > config/local.yaml
+          app:
+            baseUrl: "${{ vars.APP_BASE_URL }}"
+            loginPath: "${{ vars.APP_LOGIN_PATH }}"
+            portfolioPath: "${{ vars.APP_PORTFOLIO_PATH }}"
+          account:
+            username: "${APP_USERNAME}"
+            password: "${APP_PASSWORD}"
+            otp: "${APP_OTP}"
+          portfolio:
+            expectedTotal: "${{ vars.APP_EXPECTED_TOTAL }}"
+          behavior:
+            navigationTimeoutMs: 45000
+            actionTimeoutMs: 15000
+          selectors:
+            usernameInput:
+              - "${{ vars.APP_USERNAME_SELECTOR }}"
+            passwordInput:
+              - "${{ vars.APP_PASSWORD_SELECTOR }}"
+            signInButton:
+              - "${{ vars.APP_SIGNIN_SELECTOR }}"
+            postLoginReady:
+              - "${{ vars.APP_READY_SELECTOR }}"
+            portfolioTotal:
+              - "${{ vars.APP_PORTFOLIO_TOTAL_SELECTOR }}"
+          YAML
+
+      - name: Run test
+        run: npm test
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            test-results
